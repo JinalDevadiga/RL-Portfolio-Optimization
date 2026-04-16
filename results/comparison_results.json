@@ -1,0 +1,27 @@
+{
+  "dqn": {
+    "sharpe_ratio_mean": 0.54522345430975,
+    "sharpe_ratio_std": 0.4287185229439423,
+    "total_return_mean": 0.12572776910604025,
+    "total_return_std": 0.10219662141065793,
+    "max_drawdown_mean": -0.20231024507716597,
+    "max_drawdown_std": 0.016045424754577316
+  },
+  "ppo": {
+    "sharpe_ratio_mean": -0.5356578340041823,
+    "sharpe_ratio_std": 0.38636487416120896,
+    "total_return_mean": -0.9258938566894532,
+    "total_return_std": 0.22539453672486207,
+    "max_drawdown_mean": -0.929765607436097,
+    "max_drawdown_std": 0.21279391148379137
+  },
+  "baseline": {
+    "sharpe_ratio_mean": 0.4700192859407588,
+    "sharpe_ratio_std": 0.2110025776037287,
+    "total_return_mean": 0.08320492332341159,
+    "total_return_std": 0.03802339004780104,
+    "max_drawdown_mean": -0.154700703011678,
+    "max_drawdown_std": 6.3130970425892755e-16
+  },
+  "num_episodes": 20
+}
