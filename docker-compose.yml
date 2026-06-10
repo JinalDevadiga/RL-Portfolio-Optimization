@@ -1,0 +1,44 @@
+# docker-compose.yml
+#
+# Starts two services:
+#   training  — runs the RL training pipeline
+#   mlflow-ui — serves the experiment tracker at http://localhost:5000
+#
+# Usage:
+#   docker compose up --build          # full training run
+#   docker compose up mlflow-ui        # just the UI (if mlruns/ already exists)
+#
+# Override episodes without editing this file:
+#   DQN_EPISODES=500 PPO_EPISODES=100 docker compose up --build
+
+version: "3.9"
+
+services:
+
+  training:
+    build: .
+    command: >
+      python mlflow_runner.py
+        --dqn-episodes ${DQN_EPISODES:-50}
+        --ppo-episodes ${PPO_EPISODES:-20}
+        --seed 42
+    volumes:
+      # Persist MLflow run data and trained models outside the container
+      - ./mlruns:/app/mlruns
+      - ./results:/app/results
+    environment:
+      # Point MLflow at the shared volume so the UI can read the same runs
+      - MLFLOW_TRACKING_URI=file:///app/mlruns
+    depends_on:
+      - mlflow-ui
+
+  mlflow-ui:
+    image: python:3.10-slim
+    command: >
+      bash -c "pip install mlflow==2.13.0 -q &&
+               mlflow ui --host 0.0.0.0 --port 5000
+                         --backend-store-uri file:///mlruns"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
